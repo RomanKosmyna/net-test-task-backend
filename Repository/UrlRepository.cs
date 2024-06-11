@@ -46,10 +46,10 @@ public class UrlRepository : IUrlRepository
         return expectedUrl;
     }
 
-    public async Task<string?> ShortToFullUrlRedirect(string shortUrl)
+    public async Task<string?> ShortToFullUrlRedirect(string shortenUrl)
     {
         var findAppropriateUrl = await _dbContext.Urls
-        .FirstOrDefaultAsync(u => u.ShortenedVersion == shortUrl);
+        .FirstOrDefaultAsync(u => u.ShortenedVersion == shortenUrl);
 
         if (findAppropriateUrl == null) return null;
 

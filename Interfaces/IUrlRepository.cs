@@ -8,5 +8,5 @@ public interface IUrlRepository
     Task<Url?> GetUrlById(Guid id);
     Task<Url> AddUrl(Url url);
     Task<Url?> DeleteUrl(Guid id);
-    Task<string?> ShortToFullUrlRedirect(string shortUrl);
+    Task<string?> ShortToFullUrlRedirect(string shortenUrl);
 }
