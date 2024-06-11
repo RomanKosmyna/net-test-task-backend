@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using net_test_task_backend.Dtos.Account;
@@ -71,5 +72,16 @@ public class AccountController : ControllerBase
             UserName = user.UserName,
             Token = _tokenService.CreateToken(user)
         });
+    }
+
+    [HttpPost("getuserid")]
+    [Authorize]
+    public async Task<IActionResult> GetUserIdWithUsername([FromBody] string username)
+    {
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
+
+        if (user == null) return NotFound();
+
+        return Ok(new { userId = user.Id });
     }
 }

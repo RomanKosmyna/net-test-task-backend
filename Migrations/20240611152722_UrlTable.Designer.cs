@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using net_test_task_backend.Data;
 
@@ -11,9 +12,11 @@ using net_test_task_backend.Data;
 namespace net_test_task_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240611152722_UrlTable")]
+    partial class UrlTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace net_test_task_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b4d4ac79-ff6f-4d78-97ed-429b7d6190b2",
+                            Id = "929902ce-2c32-4e63-9514-1b2930ef7dd1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "773d7fc4-8479-4987-ba33-a4d675959ab3",
+                            Id = "2c923814-8581-448c-8cc0-f1671f31a313",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -240,9 +243,11 @@ namespace net_test_task_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedBy")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("datetime2");

@@ -7,6 +7,8 @@ namespace net_test_task_backend.Data;
 
 public class ApplicationDbContext : IdentityDbContext<AppUser>
 {
+    public DbSet<Url> Urls { get; set; }
+
     public ApplicationDbContext(DbContextOptions dbContextOptions)
         : base(dbContextOptions)
     {

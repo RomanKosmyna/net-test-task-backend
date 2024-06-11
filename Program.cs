@@ -7,6 +7,10 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using net_test_task_backend.Service;
+using net_test_task_backend.Interfaces;
+using Serilog;
+using Serilog.Events;
+using net_test_task_backend.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +89,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
+    .WriteTo.Console()
+    .CreateLogger();
+builder.Host.UseSerilog();
+
+builder.Services.AddScoped<IUrlRepository, UrlRepository>();
+builder.Services.AddScoped<IUrlService, UrlService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
