@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using programming_skills_assessment_backend.Models;
+using net_test_task_backend.Models;
 
-namespace programming_skills_assessment_backend.Data;
+namespace net_test_task_backend.Data;
 
 public class ApplicationDbContext : IdentityDbContext<AppUser>
 {

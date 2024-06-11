@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace programming_skills_assessment_backend.Models;
+namespace net_test_task_backend.Models;
 
 public class AppUser : IdentityUser
 {
