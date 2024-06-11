@@ -1,0 +1,6 @@
+@net_test_task_backend_HostAddress = http://localhost:5068
+
+GET {{net_test_task_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
