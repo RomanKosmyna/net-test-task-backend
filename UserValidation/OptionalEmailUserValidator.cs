@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace net_test_task_backend;
+namespace net_test_task_backend.UserValidation;
 
 public class OptionalEmailUserValidator<TUser> : UserValidator<TUser> where TUser : class
 {
@@ -12,7 +12,7 @@ public class OptionalEmailUserValidator<TUser> : UserValidator<TUser> where TUse
     {
         var result = await base.ValidateAsync(manager, user);
 
-        if (!result.Succeeded && String.IsNullOrWhiteSpace(await manager.GetEmailAsync(user)))
+        if (!result.Succeeded && string.IsNullOrWhiteSpace(await manager.GetEmailAsync(user)))
         {
             var errors = result.Errors.Where(e => e.Code != "InvalidEmail");
 
