@@ -1,4 +1,5 @@
-﻿using net_test_task_backend.Interfaces;
+﻿using net_test_task_backend.Dtos.Url;
+using net_test_task_backend.Interfaces;
 using net_test_task_backend.Models;
 
 namespace net_test_task_backend.Service;
@@ -19,17 +20,19 @@ public class UrlService: IUrlService
         return new string(numberOfChars);
     }
 
-    public Url CreateUrlObject(string originalUrl)
+    public Url CreateUrlObject(UserUrlDto userUrl)
     {
         var shortenedUrl = GenerateShortenUrl();
 
         var url = new Url
         {
-            OriginalUrl = originalUrl,
+            OriginalUrl = userUrl.OriginalUrl,
             ShortenedVersion = shortenedUrl,
-            CreatedBy = "user",
+            CreatedBy = userUrl.CreatedBy,
+            ExpirationDate = DateTime.UtcNow,
         };
-
+        Serilog.Log.Logger.Information("OriginalUrl: {OriginalUrl}, ShortenedVersion: {ShortenedVersion}, CreatedBy: {CreatedBy}, ExpirationDate: {ExpirationDate}",
+                                    url.OriginalUrl, url.ShortenedVersion, url.CreatedBy, url.ExpirationDate);
         return url;
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using net_test_task_backend.Dtos.Url;
 using net_test_task_backend.Interfaces;
 using net_test_task_backend.Models;
 
@@ -10,11 +12,13 @@ public class UrlController : ControllerBase
 {
     private readonly IUrlRepository _urlRepository;
     private readonly IUrlService _urlService;
+    private readonly IConfiguration _configuration;
 
-    public UrlController(IUrlRepository urlRepository, IUrlService urlService)
+    public UrlController(IUrlRepository urlRepository, IUrlService urlService, IConfiguration configuration)
     {
         _urlRepository = urlRepository;
         _urlService = urlService;
+        _configuration = configuration;
     }
 
     [HttpGet("urls")]
@@ -26,6 +30,7 @@ public class UrlController : ControllerBase
     }
 
     [HttpGet("url/{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> GetUrlById([FromRoute] Guid id)
     {
         var expectedUrl = await _urlRepository.GetUrlById(id);
@@ -36,14 +41,18 @@ public class UrlController : ControllerBase
     }
 
     [HttpPost("url")]
-    public async Task<IActionResult> AddUrl([FromBody] Url url)
+    [Authorize]
+    public async Task<IActionResult> AddUrl([FromBody] UserUrlDto url)
     {
-        var addedUrl = await _urlRepository.AddUrl(url);
+        var createUrl = _urlService.CreateUrlObject(url);
+
+        var addedUrl = await _urlRepository.AddUrl(createUrl);
 
         return CreatedAtAction(nameof(AddUrl), addedUrl);
     }
 
     [HttpDelete("url/{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> DeleteUrl([FromRoute] Guid id)
     {
         var deletedUrl = await _urlRepository.DeleteUrl(id);
@@ -53,12 +62,16 @@ public class UrlController : ControllerBase
         return NoContent();
     }
 
-    [HttpGet("shortenUrl/{shortenUrl}")]
+    [HttpGet("{shortenUrl}")]
     public async Task<IActionResult> ShortToFullUrlRedirect(string shortenUrl)
     {
         var originalUrl = await _urlRepository.ShortToFullUrlRedirect(shortenUrl);
 
-        if (originalUrl == null) return NotFound(new { message = "Such Url could not be found" });
+        if (originalUrl == null)
+        {
+            var frontendUrl = _configuration.GetValue<string>("Frontend:Url");
+            return Redirect(frontendUrl);
+        }
 
         return Redirect(originalUrl);
     }
