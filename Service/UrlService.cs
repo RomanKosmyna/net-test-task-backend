@@ -31,8 +31,7 @@ public class UrlService: IUrlService
             CreatedBy = userUrl.CreatedBy,
             ExpirationDate = DateTime.UtcNow,
         };
-        Serilog.Log.Logger.Information("OriginalUrl: {OriginalUrl}, ShortenedVersion: {ShortenedVersion}, CreatedBy: {CreatedBy}, ExpirationDate: {ExpirationDate}",
-                                    url.OriginalUrl, url.ShortenedVersion, url.CreatedBy, url.ExpirationDate);
+
         return url;
     }
 }

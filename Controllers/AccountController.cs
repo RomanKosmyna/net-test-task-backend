@@ -36,13 +36,16 @@ public class AccountController : ControllerBase
         if (createUser.Succeeded)
         {
             var assignUserRole = await _userManager.AddToRoleAsync(user, "User");
-
+            
             if (assignUserRole.Succeeded)
             {
+                var roles = await _userManager.GetRolesAsync(user);
+                var role = roles.FirstOrDefault();
+
                 return Ok(new CreatedUserDto
                 {
                     UserName = user.UserName,
-                    Token = _tokenService.CreateToken(user)
+                    Token = _tokenService.CreateToken(user, role)
                 });
             }
             else
@@ -67,21 +70,26 @@ public class AccountController : ControllerBase
 
         if (!result.Succeeded) return Unauthorized("Username or password are incorrect.");
 
+        var roles = await _userManager.GetRolesAsync(user);
+        var role = roles.FirstOrDefault();
+
         return Ok(new CreatedUserDto
         {
             UserName = user.UserName,
-            Token = _tokenService.CreateToken(user)
+            Token = _tokenService.CreateToken(user, role)
         });
     }
 
-    [HttpPost("getuserid")]
+    [HttpPost("finduserbytoken")]
     [Authorize]
-    public async Task<IActionResult> GetUserIdWithUsername([FromBody] string username)
+    public async Task<IActionResult> FindUserByToken([FromBody] string token)
     {
+        var username = _tokenService.GetUsernameFromToken(token);
+
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
 
-        if (user == null) return NotFound();
+        if (user == null) return NotFound(new { message = "Such user could not be found" });
 
-        return Ok(new { userId = user.Id });
+        return Ok();
     }
 }
