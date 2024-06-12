@@ -9,5 +9,5 @@ public interface IUrlRepository
     Task<bool> CheckIfUrlDoesNotExist(string originalUrl);
     Task<Url> AddUrl(Url url);
     Task<Url?> DeleteUrl(Guid id);
-    Task<string?> ShortToFullUrlRedirect(string shortenUrl);
+    Task<string?> GetOriginalUrl(string shortenUrl);
 }

@@ -3,6 +3,7 @@
 public class Url
 {
     public Guid Id { get; set; }
+    public Guid UserId { get; set; }
     public string OriginalUrl { get; set; }
     public string ShortenedVersion { get; set; }
     public string CreatedBy { get; set; }

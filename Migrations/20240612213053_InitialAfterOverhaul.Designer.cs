@@ -12,8 +12,8 @@ using net_test_task_backend.Data;
 namespace net_test_task_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240611172609_RemovedCreatedAtTemporalily")]
-    partial class RemovedCreatedAtTemporalily
+    [Migration("20240612213053_InitialAfterOverhaul")]
+    partial class InitialAfterOverhaul
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace net_test_task_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b4d4ac79-ff6f-4d78-97ed-429b7d6190b2",
+                            Id = "bd4b96e0-beb9-46d3-a8be-77e28faef05d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "773d7fc4-8479-4987-ba33-a4d675959ab3",
+                            Id = "f9bddc11-01cf-421b-9d23-837d3e1d0772",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -172,6 +172,24 @@ namespace net_test_task_backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("net_test_task_backend.Models.About", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Abouts");
+                });
+
             modelBuilder.Entity("net_test_task_backend.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -257,6 +275,9 @@ namespace net_test_task_backend.Migrations
                     b.Property<string>("ShortenedVersion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

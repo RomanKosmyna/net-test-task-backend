@@ -51,13 +51,13 @@ namespace net_test_task_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1c5a2599-2ff7-44b5-a4e2-f9392f35ac4b",
+                            Id = "bd4b96e0-beb9-46d3-a8be-77e28faef05d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d64f62bc-b096-4d09-8447-5cd5c22ad3e6",
+                            Id = "f9bddc11-01cf-421b-9d23-837d3e1d0772",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -272,6 +272,9 @@ namespace net_test_task_backend.Migrations
                     b.Property<string>("ShortenedVersion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

@@ -70,9 +70,9 @@ public class UrlController : ControllerBase
     }
 
     [HttpGet("{shortenUrl}")]
-    public async Task<IActionResult> ShortToFullUrlRedirect(string shortenUrl)
+    public async Task<IActionResult> ShortToFullUrlRedirect([FromRoute] string shortenUrl)
     {
-        var originalUrl = await _urlRepository.ShortToFullUrlRedirect(shortenUrl);
+        var originalUrl = await _urlRepository.GetOriginalUrl(shortenUrl);
 
         if (originalUrl == null)
         {

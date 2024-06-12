@@ -26,6 +26,7 @@ public class UrlService: IUrlService
 
         var url = new Url
         {
+            UserId = userUrl.UserId,
             OriginalUrl = userUrl.OriginalUrl,
             ShortenedVersion = shortenedUrl,
             CreatedBy = userUrl.CreatedBy,

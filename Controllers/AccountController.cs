@@ -80,9 +80,9 @@ public class AccountController : ControllerBase
         });
     }
 
-    [HttpPost("finduserbytoken")]
+    [HttpPost("finduseridbytoken")]
     [Authorize]
-    public async Task<IActionResult> FindUserByToken([FromBody] string token)
+    public async Task<IActionResult> FindUserIdByToken([FromBody] string token)
     {
         var username = _tokenService.GetUsernameFromToken(token);
 
@@ -90,6 +90,6 @@ public class AccountController : ControllerBase
 
         if (user == null) return NotFound(new { message = "Such user could not be found" });
 
-        return Ok();
+        return Ok(user.Id);
     }
 }
