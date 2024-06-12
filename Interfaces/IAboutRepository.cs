@@ -6,4 +6,5 @@ public interface IAboutRepository
 {
     Task<About?> GetAboutById(Guid id);
     Task<About> AddAbout(About about);
+    Task<About?> UpdateAbout(Guid id, About updatedAbout);
 }

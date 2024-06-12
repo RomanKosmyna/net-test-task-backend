@@ -25,4 +25,16 @@ public class AboutRepository : IAboutRepository
 
         return about;
     }
+    public async Task<About?> UpdateAbout(Guid id, About updatedAbout)
+    {
+        var expectedAbout = await _dbContext.Abouts.FindAsync(id);
+
+        if (expectedAbout == null) return null;
+
+        expectedAbout.Description = updatedAbout.Description;
+
+        await _dbContext.SaveChangesAsync();
+
+        return updatedAbout;
+    }
 }

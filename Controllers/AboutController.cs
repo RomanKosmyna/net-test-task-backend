@@ -17,7 +17,7 @@ public class AboutController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetUrlById([FromBody] Guid id)
+    public async Task<IActionResult> GetUrlById([FromRoute] Guid id)
     {
         var expectedAbout = await _aboutRepository.GetAboutById(id);
 
@@ -32,5 +32,16 @@ public class AboutController : ControllerBase
         var addedAbout = await _aboutRepository.AddAbout(about);
 
         return CreatedAtAction(nameof(AddAbout), addedAbout);
+    }
+
+    [HttpPut("{id:guid}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateAbout([FromRoute] Guid id, [FromBody] About about)
+    {
+        var updatedAbout = await _aboutRepository.UpdateAbout(id, about);
+
+        if (updatedAbout == null) return NotFound(new { message = "No such information has been found" });
+
+        return Ok(updatedAbout);
     }
 }
