@@ -2,6 +2,7 @@
 using net_test_task_backend.Data;
 using net_test_task_backend.Interfaces;
 using net_test_task_backend.Models;
+using System;
 
 namespace net_test_task_backend.Repository;
 
@@ -24,6 +25,15 @@ public class UrlRepository : IUrlRepository
     public async Task<Url?> GetUrlById(Guid id)
     {
         return await _dbContext.Urls.FindAsync(id) ?? null;
+    }
+
+    public async Task<bool> CheckIfUrlDoesNotExist(string originalUrl)
+    {
+        var expectedUrl = await _dbContext.Urls.AnyAsync(u => u.OriginalUrl == originalUrl);
+        
+        if (expectedUrl) return false;
+
+        return true;
     }
 
     public async Task<Url> AddUrl(Url url)

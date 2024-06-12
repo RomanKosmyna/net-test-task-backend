@@ -6,6 +6,7 @@ public interface IUrlRepository
 {
     Task<List<Url>> GetAllUrls();
     Task<Url?> GetUrlById(Guid id);
+    Task<bool> CheckIfUrlDoesNotExist(string originalUrl);
     Task<Url> AddUrl(Url url);
     Task<Url?> DeleteUrl(Guid id);
     Task<string?> ShortToFullUrlRedirect(string shortenUrl);

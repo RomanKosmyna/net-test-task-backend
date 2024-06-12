@@ -34,4 +34,14 @@ public class UrlService: IUrlService
 
         return url;
     }
+
+    public bool CheckIfUrlIsNullOrEmpty(string url)
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

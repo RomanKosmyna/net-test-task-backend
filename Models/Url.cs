@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace net_test_task_backend.Models;
+﻿namespace net_test_task_backend.Models;
 
 public class Url
 {

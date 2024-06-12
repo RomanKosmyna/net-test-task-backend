@@ -20,7 +20,7 @@ public class UrlController : ControllerBase
         _configuration = configuration;
     }
 
-    [HttpGet("urls")]
+    [HttpGet]
     public async Task<IActionResult> GetAllUrls()
     {
         var allUrls = await _urlRepository.GetAllUrls();
@@ -28,7 +28,7 @@ public class UrlController : ControllerBase
         return Ok(allUrls);
     }
 
-    [HttpGet("url/{id:guid}")]
+    [HttpGet("{id:guid}")]
     [Authorize]
     public async Task<IActionResult> GetUrlById([FromRoute] Guid id)
     {
@@ -39,10 +39,18 @@ public class UrlController : ControllerBase
         return Ok(expectedUrl);
     }
 
-    [HttpPost("url")]
+    [HttpPost]
     [Authorize]
     public async Task<IActionResult> AddUrl([FromBody] UserUrlDto url)
     {
+        var checkIfUrlIsNotNull = _urlService.CheckIfUrlIsNullOrEmpty(url.OriginalUrl);
+
+        if (checkIfUrlIsNotNull) return BadRequest(new { message = "Url can not be empty" });
+
+        var checkIfUrlDoesNotExist = await _urlRepository.CheckIfUrlDoesNotExist(url.OriginalUrl);
+
+        if (!checkIfUrlDoesNotExist) return BadRequest(new { message = "Such Url already exists" });
+
         var createUrl = _urlService.CreateUrlObject(url);
 
         var addedUrl = await _urlRepository.AddUrl(createUrl);
@@ -50,7 +58,7 @@ public class UrlController : ControllerBase
         return CreatedAtAction(nameof(AddUrl), addedUrl);
     }
 
-    [HttpDelete("url/{id:guid}")]
+    [HttpDelete("{id:guid}")]
     [Authorize]
     public async Task<IActionResult> DeleteUrl([FromRoute] Guid id)
     {
