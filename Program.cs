@@ -98,6 +98,7 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 builder.Services.AddScoped<IUrlRepository, UrlRepository>();
+builder.Services.AddScoped<IAboutRepository, AboutRepository>();
 builder.Services.AddScoped<IUrlService, UrlService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
